@@ -27,7 +27,8 @@ model = model_from_json(loaded_model_json)
 model.load_weights("model.h5")
 print("Loaded model from disk")
 
-img = X_train[1]
+
+img = X_train[13]
 testimg = img.reshape((1,784))
 img_class = model.predict_classes(testimg)
 prediction = img_class[0]

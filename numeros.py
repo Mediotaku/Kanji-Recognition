@@ -33,9 +33,13 @@ def baseline_model():
 	#Entrada (pixeles de la imagen)
 	model.add(Dense(num_pixels, input_dim=num_pixels, kernel_initializer='normal', activation='relu'))
 
-	
 	model.add(Dense(300, kernel_initializer='normal', activation='relu'))
 	model.add(Dropout(0.5))
+
+	#Modelo dividido en dos hidden layers con baseline error of 1.79%
+	#model.add(Dense(150, kernel_initializer='normal', activation='relu'))
+	#model.add(Dense(150, kernel_initializer='normal', activation='relu'))
+	#Modelo de una sola hidden layer de 128
 	#model.add(Dense(128, kernel_initializer='normal', activation='relu'))
 	#model.add(Dropout(0.5))
 
@@ -54,12 +58,12 @@ scores = model.evaluate(X_test, y_test, verbose=2)
 print("Baseline Error: %.2f%%" % (100-scores[1]*100))
 
 # serialize model to JSON
-model_json = model.to_json()
-with open("model.json", "w") as json_file:
-    json_file.write(model_json)
+#model_json = model.to_json()
+#with open("model.json", "w") as json_file:
+#    json_file.write(model_json)
 # serialize weights to HDF5
-model.save_weights("model.h5")
-print("Saved model to disk")
+#model.save_weights("model.h5")
+#print("Saved model to disk")
 
 
 img = X_train[0]
