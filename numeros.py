@@ -24,11 +24,22 @@ y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
 num_classes = y_test.shape[1]
 
+print(num_pixels,num_classes)
+
 # define baseline model
 def baseline_model():
 	# create model
 	model = Sequential()
+	#Entrada (pixeles de la imagen)
 	model.add(Dense(num_pixels, input_dim=num_pixels, kernel_initializer='normal', activation='relu'))
+
+	
+	model.add(Dense(300, kernel_initializer='normal', activation='relu'))
+	model.add(Dropout(0.5))
+	#model.add(Dense(128, kernel_initializer='normal', activation='relu'))
+	#model.add(Dropout(0.5))
+
+	#Salida (10 digitos)
 	model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
 	# Compile model
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
