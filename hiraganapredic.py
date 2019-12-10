@@ -6,22 +6,18 @@ from keras.layers import Dropout
 from keras.utils import np_utils
 from keras.models import model_from_json
 import matplotlib.pyplot as plt
-from tensorflow.contrib.learn.python.learn.datasets.mnist import extract_images, extract_labels
+import numpy as np
 import pandas as pd
 
 plt.rc('font', family='TakaoPGothic')
 
 # cargar datos de mnist Kuzushiji
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
-with open('train-images-idx3-ubyte.gz', 'rb') as f:
-  X_train = extract_images(f)
-with open('train-labels-idx1-ubyte.gz', 'rb') as f:
-  y_train = extract_labels(f)
-
-with open('t10k-images-idx3-ubyte.gz', 'rb') as f:
-  X_test = extract_images(f)
-with open('t10k-labels-idx1-ubyte.gz', 'rb') as f:
-  y_test = extract_labels(f)
+#En formato .npz de numpy
+X_train = np.load('kmnist-train-imgs.npz')['arr_0']
+y_train = np.load('kmnist-train-labels.npz')['arr_0']
+X_test = np.load('kmnist-test-imgs.npz')['arr_0']
+y_test = np.load('kmnist-test-labels.npz')['arr_0']
 
 # flatten 28*28 images to a 784 vector for each image
 num_pixels = X_train.shape[1] * X_train.shape[2]
@@ -36,15 +32,15 @@ X_test = X_test / 255
 data = pd.read_csv("kmnist_classmap.csv") 
 hira_labels= data['codepoint'].values
 
-json_file = open('model_hiragana.json', 'r')
+json_file = open('model_hiraganaadam.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 model = model_from_json(loaded_model_json)
 # load weights into new model
-model.load_weights("model_hiragana.h5")
+model.load_weights("model_hiraganaadam.h5")
 print("Loaded model from disk")
 
-img = X_train[4]
+img = X_test[3]
 testimg = img.reshape((1,784))
 img_class = model.predict_classes(testimg)
 prediction = img_class[0]

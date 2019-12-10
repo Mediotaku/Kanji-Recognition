@@ -1,4 +1,5 @@
 # importamos los modulos necesarios de keras
+import keras.optimizers
 from keras.datasets import mnist
 from keras.models import Sequential
 from keras.layers import Dense
@@ -6,20 +7,16 @@ from keras.layers import Dropout
 from keras.utils import np_utils
 from keras.models import model_from_json
 import matplotlib.pyplot as plt
-from tensorflow.examples.tutorials.mnist import input_data
-from tensorflow.contrib.learn.python.learn.datasets.mnist import extract_images, extract_labels
+import numpy as np
+
 
 # cargar datos de mnist Kuzushiji
 #(X_train, y_train), (X_test, y_test) = mnist.load_data()
-with open('train-images-idx3-ubyte.gz', 'rb') as f:
-  X_train = extract_images(f)
-with open('train-labels-idx1-ubyte.gz', 'rb') as f:
-  y_train = extract_labels(f)
-
-with open('t10k-images-idx3-ubyte.gz', 'rb') as f:
-  X_test = extract_images(f)
-with open('t10k-labels-idx1-ubyte.gz', 'rb') as f:
-  y_test = extract_labels(f)
+#En formato .npz de numpy
+X_train = np.load('kmnist-train-imgs.npz')['arr_0']
+y_train = np.load('kmnist-train-labels.npz')['arr_0']
+X_test = np.load('kmnist-test-imgs.npz')['arr_0']
+y_test = np.load('kmnist-test-labels.npz')['arr_0']
 
 # flatten 28*28 images to a 784 vector for each image
 num_pixels = X_train.shape[1] * X_train.shape[2]
@@ -37,6 +34,9 @@ num_classes = y_test.shape[1]
 
 print(num_pixels,num_classes)
 
+learning_rate = 1e-3
+epochs = 50
+decay_rate = learning_rate / epochs
 # define baseline model
 def baseline_model():
 	# create model
@@ -44,8 +44,10 @@ def baseline_model():
 	#Entrada (pixeles de la imagen)
 	model.add(Dense(num_pixels, input_dim=num_pixels, kernel_initializer='normal', activation='relu'))
 
-	model.add(Dense(300, kernel_initializer='normal', activation='relu'))
-	model.add(Dropout(0.5))
+	model.add(Dense(512, kernel_initializer='normal', activation='relu'))
+	#model.add(Dropout(0.5))
+	model.add(Dense(256, kernel_initializer='normal', activation='relu'))
+	#model.add(Dropout(0.5))
 
 	#Modelo dividido en dos hidden layers con baseline error of 1.79%
 	#model.add(Dense(150, kernel_initializer='normal', activation='relu'))
@@ -57,23 +59,24 @@ def baseline_model():
 	#Salida (10 characters)
 	model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
 	# Compile model
-	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	#model.compile(loss='categorical_crossentropy',  optimizer=keras.optimizers.SGD(lr=learning_rate, momentum=0.8, decay=decay_rate), metrics=['accuracy'])
+	model.compile(loss='categorical_crossentropy',  optimizer="adam", metrics=['accuracy'])
 	return model
 
 # build the model
 model = baseline_model()
 # Fit the model
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=10, batch_size=200, verbose=2)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=50,verbose=2)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test, verbose=2)
 print("Baseline Error: %.2f%%" % (100-scores[1]*100))
 
 # serialize model to JSON
 model_json = model.to_json()
-with open("model_hiragana.json", "w") as json_file:
+with open("model_hiraganaadam.json", "w") as json_file:
     json_file.write(model_json)
 #serialize weights to HDF5
-model.save_weights("model_hiragana.h5")
+model.save_weights("model_hiraganaadam.h5")
 print("Saved model to disk")
 
 
