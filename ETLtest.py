@@ -30,7 +30,7 @@ def get_ETL8B2(dataset, categories, writers):
     scriptTypes = []
 
     for id_category in categories:
-        with open(filename, 'r') as f:
+        with open(filename, 'r', encoding="shiftjis") as f:
             f.seek((id_category * 160 + 1) * 512) #In case of ETL8B2C dataset
             for i in range(writers):
                 r = read_record_ETL8B2(f)

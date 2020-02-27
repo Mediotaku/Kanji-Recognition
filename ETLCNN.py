@@ -13,8 +13,8 @@ import numpy as np
 X_train, y_train, X_test, y_test = KerasHiragana(160,0.2)
 
 
-X_train = X_train.reshape(X_train.shape[0], 28, 28, 1).astype('float32')
-X_test = X_test.reshape(X_test.shape[0], 28, 28, 1).astype('float32')
+X_train = X_train.reshape(X_train.shape[0], 64, 64, 1).astype('float32')
+X_test = X_test.reshape(X_test.shape[0], 64, 64, 1).astype('float32')
 
 # normalize inputs from 0-255 to 0-1
 X_train = X_train / 255
