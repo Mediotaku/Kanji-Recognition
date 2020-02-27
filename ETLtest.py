@@ -6,6 +6,8 @@ from sklearn import datasets, metrics
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 #This test is working on Python 2.7.17
+#Notes for Python 3 use: must solve problem regading "encoding" parameter
+#in open function, which must be included when using this version
 
 #Here we read the database as indicated by the ETL
 def read_record_ETL8B2(f):
@@ -30,7 +32,7 @@ def get_ETL8B2(dataset, categories, writers):
     scriptTypes = []
 
     for id_category in categories:
-        with open(filename, 'r', encoding="shiftjis") as f:
+        with open(filename, 'r') as f:
             f.seek((id_category * 160 + 1) * 512) #In case of ETL8B2C dataset
             for i in range(writers):
                 r = read_record_ETL8B2(f)
@@ -88,8 +90,11 @@ def KerasHiragana(writers=160,test_size=0.2):
     x_train, x_test, y_train, y_test = train_test_split(characters_shuffle, new_labels_shuffle, test_size=test_size, random_state=42)
 
     #(1, 64, 64)
-    X_train=  x_train.reshape((x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
-    X_test= x_test.reshape((x_test.shape[0], 1, x_test.shape[1], x_test.shape[2]))
+    
+    #X_train=  x_train.reshape((x_train.shape[0], 1, x_train.shape[1], x_train.shape[2]))
+    #X_test= x_test.reshape((x_test.shape[0], 1, x_test.shape[1], x_test.shape[2]))
+    X_train=  x_train.reshape(x_train.shape[0], 64, 64, 1).astype('float32')
+    X_test= x_test.reshape(x_test.shape[0], 64, 64, 1).astype('float32')
     
     nb_classes= len(unique_labels)
     Y_train= np_utils.to_categorical(y_train, nb_classes)

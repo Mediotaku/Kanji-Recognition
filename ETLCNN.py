@@ -8,11 +8,12 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.utils import np_utils
 from ETLtest import KerasHiragana
 import numpy as np
+#This test is working on Python 2.7.17
 
 # load data from ETL hiragana
 X_train, y_train, X_test, y_test = KerasHiragana(160,0.2)
 
-
+"""
 X_train = X_train.reshape(X_train.shape[0], 64, 64, 1).astype('float32')
 X_test = X_test.reshape(X_test.shape[0], 64, 64, 1).astype('float32')
 
@@ -22,12 +23,14 @@ X_test = X_test / 255
 # one hot encode outputs
 y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
+
+"""
 num_classes = y_test.shape[1]
 
 def baseline_model():
 	# create model
 	model = Sequential()
-	model.add(Conv2D(30, (5, 5), input_shape=(28, 28, 1), activation='relu'))
+	model.add(Conv2D(30, (5, 5), input_shape=(64, 64, 1), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))
 	model.add(Conv2D(15, (3, 3), activation='relu'))
 	model.add(MaxPooling2D(pool_size=(2, 2)))

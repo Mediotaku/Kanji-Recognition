@@ -1,5 +1,8 @@
 Pip con version:
 sudo python2.7 -m pip install ...
 
+Pip para instalar a Python 3 (numpy en este caso):
+python -m pip install numpy --user
+
 Ejemplo deprecated en Tensorflow 2.0, necesaria otra forma de leer datasets:
 from tensorflow.contrib.learn.python.learn.datasets.mnist import extract_images, extract_labels
