@@ -1,0 +1,10 @@
+<table border=1> 
+<!-- The brackets are to differentiate from normal HTML text-->
+<!-- This is a Jinja template-->
+    {% for user in userDetails %}
+    <tr>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+    </tr>
+    {% endfor %}
+</table>
