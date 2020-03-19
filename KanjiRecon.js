@@ -41,11 +41,11 @@ function iniciar(canvas, ctx){
        ctx.beginPath();
        e.preventDefault();
     }); 
-    canvas.onmouseup=function(e){
+    window.onmouseup=function(e){
        click=false;
        ctx.beginPath();
     }
-    canvas.addEventListener("touchend", function (e){
+    window.addEventListener("touchend", function (e){
        click=false;
        ctx.beginPath();
        e.preventDefault();
