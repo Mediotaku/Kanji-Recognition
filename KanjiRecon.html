@@ -1,13 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<body>
-<canvas id="thecanvas"></canvas>
-<div id="wrapper">
-<h1 id="title">KanjiRecon</h1>
-<button type="button" id="clean">Clean</button>
-<canvas id="kanjicanvas"></canvas>
-</div>
-</body>
 <head>
 <meta charset="utf-8"/>
 <meta name="author" content="@mediotaku">
@@ -16,6 +8,53 @@
 <script type="text/javascript" src="KanjiRecon.js"></script>
 <title>KanjiRecon Tool</title>
 </head>
+<body>
+<canvas id="thecanvas"></canvas>
+<div id="wrapper">
+<div class="button b2" id="button-10">
+    <input type="checkbox" class="checkbox">
+    <div class="knobs">
+      <span>English</span>
+    </div>
+    <div class="layer"></div>
+</div>
+<h1 id="title">KanjiRecon</h1>
+<p>Welcome! This is a research project for the recognition 
+of Japanese characters. You can contribute by sending 
+one character of your own.
+</p>
+<hr>
+<p id="sentence">Please write the character「あ」in the grey box. After that,
+answer the three questions below and press "Submit".
+</p>
 
+<form method="POST" action="">
+<button type="button" id="clean">Clean</button>
+<canvas id="kanjicanvas"></canvas>
 
+<p class="question" id="question">
+Where are you from?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="country" value="native"> Japan
+<input type="radio" name="country" value="second"> Other
+<p class="question" id="question">
+What is your level of Japanese language?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="language" value="native"> Native
+<input type="radio" name="language" value="second"> Second language
+<input type="radio" name="language" value="learning"> Learner
+<p class="question" id="question">
+What have you used to write the character?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="input" value="native"> Mouse
+<input type="radio" name="input" value="second"> Finger
+<input type="radio" name="input" value="learning"> Stylus pen
+<input type="submit" id="submit">
+</form>
+
+</div>
+</body>
 </html>

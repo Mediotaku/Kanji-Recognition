@@ -26,7 +26,6 @@ html, body { width:100%; height:100%; }
     /*Without position:relative the button is not clickable*/ 
     position: relative;
     float: right;
-    margin-top: 1em;
     margin-bottom: 0.5em; 
 }
 
@@ -35,11 +34,137 @@ html, body { width:100%; height:100%; }
     z-index: 2;
     margin-left: auto;
     margin-right: auto;
+    left: 0;
+    right: 0;
+    position: absolute;
 }
-
+#questiondivisor{
+    margin-bottom: 10px;
+    margin-top: 3px;
+}
 #title{
     position: relative;
     z-index: 2;
     font-size: 2em;
     text-align: center;
+    margin-bottom: 0.2em;
+
+}
+#sentence{
+    line-height: 120%;
+}
+.question{
+    margin-top:15px;
+}
+input[name="language"]{
+    margin-left:10px;
+}
+input[name="input"]{
+    margin-left:20px;
+}
+input[name="country"]{
+    margin-left:60px;
+}
+hr{
+    border-width: 1px;
+    border-color: lightgray;
+}
+/*Language switch CSS*/
+.knobs, .layer
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.button
+{
+    position: relative;
+    display:block;
+    z-index: 2;
+    width: 105px;
+    height: 36px;  
+    overflow: hidden;
+    /*To avoid special behaviour from Japanese characters*/
+    white-space: nowrap; 
+    margin-top: 5px;
+    margin-left: 65%;
+}
+.button, .button .layer 
+{
+    border-radius: 100px;
+}
+.checkbox
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 4;
+}
+.knobs
+{
+    z-index: 3;
+}
+.layer
+{
+    width: 100%;
+    background-color: #fdfdfd;
+    border: 2px solid lightgrey;
+    transition: 0.3s ease all;
+    z-index: 2;
+}
+#button-10 .knobs:before, #button-10 .knobs:after, #button-10 .knobs span
+{
+    position: absolute;
+    top: 4px;
+    width: 40px;
+    height: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    border-radius: 100px;
+    transition: 0.3s ease all;
+}
+#button-10 .knobs:before
+{
+    content: '';
+    left: 4px;
+    background-color: #4fca22;
+}
+#button-10 .knobs:after
+{
+    content: '日本語';
+    right: 4px;
+    color: #4e4e4e;
+}
+#button-10 .knobs span
+{
+    display: inline-block;
+    left: 4px;
+    color: #fff;
+    z-index: 1;
+}
+#button-10 .checkbox:checked + .knobs span
+{
+    color: #4e4e4e;
+}
+#button-10 .checkbox:checked + .knobs:before
+{
+    left: 53px;
+    background-color: #4fca22;
+}
+#button-10 .checkbox:checked + .knobs:after
+{
+    color: #fff;
+}
+#button-10 .checkbox:checked ~ .layer
+{
+    background-color: #fdfdfd;
 }
