@@ -7,6 +7,12 @@ window.onload = function(){
     iniciar(canvas, ctx);
 }
 
+//To transform the canvas content into binary data
+function canvastoimg(){
+   var canvas = document.getElementById("kanjicanvas");
+   document.getElementById('imgcanvas').value = canvas.toDataURL();
+}
+
 function iniciar(canvas, ctx){
     var click=false;
     function grid(){

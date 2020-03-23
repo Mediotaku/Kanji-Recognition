@@ -1,7 +1,61 @@
-<form method="POST" action="">
-    Name <input type="text" name="name" />
-    <br>
-    Email <input type="email" name="email" />
-    <br>
-    <input type="submit">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="author" content="@mediotaku">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='styles/KanjiRecon.css') }}">
+<script type="text/javascript" src="static/KanjiRecon.js"></script>
+<title>KanjiRecon Tool</title>
+</head>
+<body>
+<canvas id="thecanvas"></canvas>
+<div id="wrapper">
+<div class="button b2" id="button-10">
+    <input type="checkbox" class="checkbox">
+    <div class="knobs">
+      <span>English</span>
+    </div>
+    <div class="layer"></div>
+</div>
+<h1 id="title">KanjiRecon</h1>
+<p>Welcome! This is a research project for the recognition 
+of Japanese characters. You can contribute by sending 
+one character of your own.
+</p>
+<hr>
+<p id="sentence">Please write the character「あ」in the grey box. After that,
+answer the three questions below and press "Submit".
+</p>
+
+<form method="POST" action="" onsubmit="canvastoimg()">
+<button type="button" id="clean">Clean</button>
+<canvas id="kanjicanvas"></canvas>
+<!--This is a hidden field to store the canvas data before POST-->
+<input type="hidden" id="imgcanvas" name="imgcanvas">
+<p class="question" id="question">
+Where are you from?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="country" value="native"> Japan
+<input type="radio" name="country" value="second"> Other
+<p class="question" id="question">
+What is your level of Japanese language?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="language" value="native"> Native
+<input type="radio" name="language" value="second"> Second language
+<input type="radio" name="language" value="learning"> Learner
+<p class="question" id="question">
+What have you used to write the character?
+</p>
+<hr id="questiondivisor">
+<input type="radio" name="input" value="native"> Mouse
+<input type="radio" name="input" value="second"> Finger
+<input type="radio" name="input" value="learning"> Stylus pen
+<input type="submit" id="submit">
 </form>
+
+</div>
+</body>
+</html>
