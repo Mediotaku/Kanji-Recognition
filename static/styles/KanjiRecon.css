@@ -26,9 +26,9 @@ html, body { width:100%; height:100%; }
     /*Without position:relative the button is not clickable*/ 
     position: relative;
     float: right;
-    margin-bottom: 0.5em; 
-}
+    margin-bottom: 0.5em;
 
+}
 #wrapper{
     width:300px;
     z-index: 2;
@@ -38,26 +38,88 @@ html, body { width:100%; height:100%; }
     right: 0;
     position: absolute;
 }
-#questiondivisor{
-    margin-bottom: 10px;
-    margin-top: 3px;
-}
 #title{
     position: relative;
     z-index: 2;
-    font-size: 2em;
     text-align: center;
     margin-bottom: 0.2em;
-
+    line-height: 105%;
 }
-#sentence{
+#kanji{
+    font-size: 2.1em;
+    color:#4fca22;
+}
+#kanji2{
+    font-family: Arial, sans-serif;
+    color: #5a5a5b;
+}
+#box1{
+    margin-top:1em;
+    margin-bottom:8px;
+}
+#sentence1{
     line-height: 120%;
+    margin-bottom: 5px;
+}
+#sentence2{
+    line-height: 120%;
+    margin-top: 5px;
+}
+#sentencedivisor{
+    border-top: 3px dashed lightgray;
+    border-bottom: white;
+    border-right: white;
+    border-left: white;
+}
+#questiondivisor{
+    margin-bottom: 10px;
+    margin-top: 3px;
+    border-width: 1px;
+    border-color: lightgray;
+}
+#clean{
+    font-family: 'Nunito', sans-serif;
+    font-size:1.1em;
+    color: grey;
+    background-color: white;
+    border-radius: 12px;
+    border: 3px solid lightgrey;
+    padding:5px;
+    transition: 0.3s;
+}
+#clean:hover{
+    color: white;
+    background-color: #4fca22;
+    cursor:pointer;
+}
+#submit{
+    font-family: 'Nunito', sans-serif;
+    font-size:1.1em;
+    color: grey;
+    background-color: white;
+    border-radius: 12px;
+    border: 3px solid lightgrey;
+    padding:5px;
+    transition: 0.3s;
+    margin-left: 39%;
+    margin-top:15px;
+}
+#submit:hover{
+    color: white;
+    background-color: #4fca22;
+    cursor:pointer;
+}
+p{
+    font-family: 'Nunito', sans-serif;
+}
+form{
+    font-family: 'Nunito', sans-serif;
 }
 .question{
     margin-top:15px;
 }
 input[name="language"]{
-    margin-left:10px;
+    margin-left:4px;
 }
 input[name="input"]{
     margin-left:20px;
@@ -65,10 +127,14 @@ input[name="input"]{
 input[name="country"]{
     margin-left:60px;
 }
-hr{
-    border-width: 1px;
-    border-color: lightgray;
-}
+/*Style of notification modal*/
+.modal {
+    display: block;
+    position: relative;
+    z-index: 3; 
+    left: 0;
+   
+  }
 /*Language switch CSS*/
 .knobs, .layer
 {

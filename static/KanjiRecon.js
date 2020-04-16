@@ -15,6 +15,8 @@ function canvastoimg(){
 
 function iniciar(canvas, ctx){
     var click=false;
+    console.log(window.initialData);
+    
     function grid(){
         //Drawing 原稿用紙 grid lines in lightgrey
         ctx.strokeStyle="lightgrey";
@@ -92,4 +94,97 @@ function iniciar(canvas, ctx){
        //Draw grid lines after clear
        grid();
     }
+//Language management module
+    function language(){
+       var lang =sessionStorage.getItem("language");
+       if(lang!='ja' && lang!='en'){
+         sessionStorage.setItem("language", document.getElementsByTagName("html")[0].getAttribute("lang"));
+         lang =sessionStorage.getItem("language");
+       } 
+       document.getElementsByTagName("html")[0].setAttribute("lang", lang);
+       var aux = document.getElementById("sentence2").innerHTML;
+       var mychar = aux.substring(aux.lastIndexOf("「") + 1, aux.lastIndexOf("」"));
+       if(lang=='ja'){
+         document.getElementById("changelang").checked=true;
+         var pelements=document.querySelectorAll("p");
+         for (var i = 0; i < pelements.length; i++) {
+            pelements[i].style['font-family']="'Noto Serif JP', serif";
+            pelements[i].style['font-size']="1em";
+         }
+         document.querySelectorAll("form")[0].style['font-family']="'Noto Serif JP', serif";
+         document.querySelectorAll("form")[0].style['font-size']="1em";
+         document.getElementById("sentence1").innerHTML="ようこそ！これは日本語の文字を認識の研究プロジェクトです。自分の1文字を送ることで貢献できます。";
+         document.getElementById("sentence2").innerHTML="グレー の箱に「"+mychar+"」の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。";
+         document.getElementById("question1").innerHTML="出身はどちらですか?";
+         document.getElementById("question2").innerHTML="あなたの日本語レベルはどのくらいですか？";
+         document.getElementById("question3").innerHTML="文字を書くのに何を使いましたか？";
+         document.getElementById("country1").innerHTML="日本";
+         document.getElementById("country2").innerHTML="他の国";
+         document.getElementById("language1").innerHTML="母語";
+         document.getElementById("language2").innerHTML="第二言語";
+         document.getElementById("language3").innerHTML="勉強中";
+         document.getElementById("input1").innerHTML="マウス";
+         document.getElementById("input2").innerHTML="指";
+         document.getElementById("input3").innerHTML="タッチペン";
+         var languageele=document.getElementsByName("language");
+         var inputele=document.getElementsByName("input");
+         for (var i = 0; i < languageele.length; i++){
+            languageele[i].style['margin-left']="25px";
+            inputele[i].style['margin-left']="27px";
+         } 
+         document.getElementById("clean").innerHTML="消す";
+         document.getElementById("clean").style['font-family']="'Noto Serif JP', serif";
+         document.getElementById("submit").value="送信";
+         document.getElementById("submit").style['margin-left']='41%';
+         document.getElementById("submit").style['font-family']="'Noto Serif JP', serif";
+       }
+       if(lang=='en'){
+         document.getElementById("changelang").checked=false;
+         var pelements=document.querySelectorAll("p");
+         for (var i = 0; i < pelements.length; i++) {
+            pelements[i].style['font-family']="'Nunito', sans-serif";
+            pelements[i].style['font-size']="1em";
+         }
+         document.querySelectorAll("form")[0].style['font-family']="'Nunito', sans-serif";
+         document.querySelectorAll("form")[0].style['font-size']="1em";
+         document.getElementById("sentence1").innerHTML="Welcome! This is a research project for the recognition of Japanese characters. You can contribute by sending one character of your own.";     
+         document.getElementById("sentence2").innerHTML="Please write the character「"+mychar+"」in the grey box. After that, answer the three questions below and press 'Submit'.";
+         document.getElementById("question1").innerHTML="Where are you from?";
+         document.getElementById("question2").innerHTML="What is your level of Japanese language?";
+         document.getElementById("question3").innerHTML="What have you used to write the character?";
+         document.getElementById("country1").innerHTML="Japan";
+         document.getElementById("country2").innerHTML="Other";
+         document.getElementById("language1").innerHTML="Native";
+         document.getElementById("language2").innerHTML="Second language";
+         document.getElementById("language3").innerHTML="Learner";
+         document.getElementById("input1").innerHTML="Mouse";
+         document.getElementById("input2").innerHTML="Finger";
+         document.getElementById("input3").innerHTML="Stylus pen";
+         var languageele=document.getElementsByName("language");
+         var inputele=document.getElementsByName("input");
+         for (var i = 0; i < languageele.length; i++){
+            languageele[i].style['margin-left']="4px";
+            inputele[i].style['margin-left']="20px";
+         }
+         document.getElementById("clean").innerHTML="Clean";
+         document.getElementById("clean").style['font-family']="'Nunito', sans-serif"; 
+         document.getElementById("submit").value="Submit";
+         document.getElementById("submit").style['margin-left']='39%';
+         document.getElementById("submit").style['font-family']="'Nunito', sans-serif"; 
+      }
+    }
+    document.getElementById("changelang").onchange=function(){
+      var lang=document.getElementsByTagName("html")[0].getAttribute("lang");
+      if(lang=='ja'){
+         document.getElementsByTagName("html")[0].setAttribute("lang","en");
+         sessionStorage.setItem("language", "en");
+         language();
+      }
+      if(lang=='en'){
+         document.getElementsByTagName("html")[0].setAttribute("lang","ja");
+         sessionStorage.setItem("language", "ja");
+         language();
+      }
+    }
+    language();
 }

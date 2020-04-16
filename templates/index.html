@@ -1,59 +1,69 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ja">
 <head>
 <meta charset="utf-8"/>
 <meta name="author" content="@mediotaku">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css"  href="{{ url_for('static', filename='styles/KanjiRecon.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet"> <!--Fonts link in header are supposed to load faster-->
+<link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap" rel="stylesheet">  
 <script type="text/javascript" src="static/KanjiRecon.js"></script>
 <title>KanjiRecon Tool</title>
+<script type="text/javascript">
+    window.initialData = {{ postedwindow }}
+</script> 
 </head>
 <body>
 <canvas id="thecanvas"></canvas>
 <div id="wrapper">
 <div class="button b2" id="button-10">
-    <input type="checkbox" class="checkbox">
+    <input id="changelang" type="checkbox" class="checkbox" checked>
     <div class="knobs">
-      <span>English</span>
+      <span lang="en">English</span>
     </div>
     <div class="layer"></div>
 </div>
-<h1 id="title">KanjiRecon</h1>
-<p>Welcome! This is a research project for the recognition 
-of Japanese characters. You can contribute by sending 
-one character of your own.
+<h1 id="title"><span id="kanji">漢字</span><span id="kanji2">Recon</span></h1>
+<div id="box1">
+<p id="sentence1">ようこそ！これは日本語の文字を認識の研究プロジェクトです。自分の1文字を送ることで貢献できます。
 </p>
-<hr>
-<p id="sentence">Please write the character「あ」in the grey box. After that,
-answer the three questions below and press "Submit".
+<hr id="sentencedivisor">
+<p id="sentence2">グレー の箱に「{{character}}」の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。
 </p>
-
+</div>
+<!--Mensajes de enviado y de dibujo vacío-->
+<!--<div id="mensajemodal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+</div>-->
 <form method="POST" action="" onsubmit="canvastoimg()">
 <button type="button" id="clean">Clean</button>
 <canvas id="kanjicanvas"></canvas>
 <!--This is a hidden field to store the canvas data before POST-->
 <input type="hidden" id="imgcanvas" name="imgcanvas">
-<p class="question" id="question">
-Where are you from?
+<p class="question" id="question1">
+出身はどちらですか?
 </p>
 <hr id="questiondivisor">
-<input type="radio" name="country" value="native"> Japan
-<input type="radio" name="country" value="second"> Other
-<p class="question" id="question">
-What is your level of Japanese language?
+<input type="radio" name="country" value="japan" checked> <label id="country1">日本</label>
+<input type="radio" name="country" value="other">  <label id="country2">他の国</label>
+<p class="question" id="question2">
+あなたの日本語レベルはどのくらいですか？
 </p>
 <hr id="questiondivisor">
-<input type="radio" name="language" value="native"> Native
-<input type="radio" name="language" value="second"> Second language
-<input type="radio" name="language" value="learning"> Learner
-<p class="question" id="question">
-What have you used to write the character?
+<input type="radio" name="language" value="native" checked> <label id="language1">母語</label>
+<input type="radio" name="language" value="second"> <label id="language2">第二言語</label>
+<input type="radio" name="language" value="learning"> <label id="language3">勉強中</label>
+<p class="question" id="question3">
+文字を書くのに何を使いましたか？
 </p>
 <hr id="questiondivisor">
-<input type="radio" name="input" value="native"> Mouse
-<input type="radio" name="input" value="second"> Finger
-<input type="radio" name="input" value="learning"> Stylus pen
-<input type="submit" id="submit">
+<input type="radio" name="input" value="mouse" checked> <label id="input1">マウス</label>
+<input type="radio" name="input" value="finger"> <label id="input2">指</label>
+<input type="radio" name="input" value="stylus"> <label id="input3">タッチペン</label>
+<input type="submit" id="submit" value="Submit">
 </form>
 
 </div>
