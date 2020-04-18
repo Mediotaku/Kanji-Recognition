@@ -10,7 +10,7 @@
 <script type="text/javascript" src="static/KanjiRecon.js"></script>
 <title>KanjiRecon Tool</title>
 <script type="text/javascript">
-    window.initialData = {{ postedwindow }}
+    window.initialData = "{{ postedwindow }}"
 </script> 
 </head>
 <body>
@@ -31,20 +31,14 @@
 <p id="sentence2">グレー の箱に「{{character}}」の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。
 </p>
 </div>
-<!--Mensajes de enviado y de dibujo vacío-->
-<!--<div id="mensajemodal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>Some text in the Modal..</p>
-  </div>
-</div>-->
+
 <form method="POST" action="" onsubmit="canvastoimg()">
-<button type="button" id="clean">Clean</button>
+<button type="button" id="clean" class="buttonon">Clean</button>
 <canvas id="kanjicanvas"></canvas>
 <!--This is a hidden field to store the canvas data before POST-->
 <input type="hidden" id="imgcanvas" name="imgcanvas">
 <p class="question" id="question1">
-出身はどちらですか?
+ご出身はどちらですか?
 </p>
 <hr id="questiondivisor">
 <input type="radio" name="country" value="japan" checked> <label id="country1">日本</label>
@@ -63,9 +57,17 @@
 <input type="radio" name="input" value="mouse" checked> <label id="input1">マウス</label>
 <input type="radio" name="input" value="finger"> <label id="input2">指</label>
 <input type="radio" name="input" value="stylus"> <label id="input3">タッチペン</label>
-<input type="submit" id="submit" value="Submit">
+<input type="submit" id="submit" value="Submit" class="buttonon"/>
 </form>
-
+</div>
+<!--Mensajes de enviado y de dibujo vacío-->
+<div id="mensajemodal" class="modal">
+  <div class="modal-content">
+    <p id="modaltext1">ご貢献いただき、ありがとうございます!</p>
+    <!--Modified image, original version: http://www.onlinewebfonts.com-->
+    <img class="returnImg" src="{{url_for('static', filename='return.png')}}">
+    <p id="modaltext2">戻るボタンを押して別の文字を送信できます</p>
+  </div>
 </div>
 </body>
 </html>

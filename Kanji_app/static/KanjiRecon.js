@@ -15,7 +15,7 @@ function canvastoimg(){
 
 function iniciar(canvas, ctx){
     var click=false;
-    console.log(window.initialData);
+    var modalon=false;
     
     function grid(){
         //Drawing 原稿用紙 grid lines in lightgrey
@@ -41,13 +41,15 @@ function iniciar(canvas, ctx){
     grid();
     
     canvas.onmousedown=function(e){
+       if(modalon==false){
        click=true;
-       ctx.beginPath();
+       ctx.beginPath();}
     }
     canvas.addEventListener("touchstart", function (e){
+       if(modalon==false){
        click=true;
        ctx.beginPath();
-       e.preventDefault();
+       e.preventDefault();}
     }); 
     window.onmouseup=function(e){
        click=false;
@@ -115,7 +117,7 @@ function iniciar(canvas, ctx){
          document.querySelectorAll("form")[0].style['font-size']="1em";
          document.getElementById("sentence1").innerHTML="ようこそ！これは日本語の文字を認識の研究プロジェクトです。自分の1文字を送ることで貢献できます。";
          document.getElementById("sentence2").innerHTML="グレー の箱に「"+mychar+"」の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。";
-         document.getElementById("question1").innerHTML="出身はどちらですか?";
+         document.getElementById("question1").innerHTML="ご出身はどちらですか?";
          document.getElementById("question2").innerHTML="あなたの日本語レベルはどのくらいですか？";
          document.getElementById("question3").innerHTML="文字を書くのに何を使いましたか？";
          document.getElementById("country1").innerHTML="日本";
@@ -126,6 +128,12 @@ function iniciar(canvas, ctx){
          document.getElementById("input1").innerHTML="マウス";
          document.getElementById("input2").innerHTML="指";
          document.getElementById("input3").innerHTML="タッチペン";
+         document.getElementById("modaltext1").innerHTML="ご貢献いただき、ありがとうございます!";
+         document.getElementById("modaltext2").innerHTML="戻るボタンを押して別の文字を送信できます";
+         if(window.initialData=="noimage"){
+            document.getElementById("modaltext1").innerHTML="文字の箱が空です";
+            document.getElementById("modaltext2").innerHTML="戻るボタンを押して文字を書いてください";
+         }
          var languageele=document.getElementsByName("language");
          var inputele=document.getElementsByName("input");
          for (var i = 0; i < languageele.length; i++){
@@ -160,6 +168,12 @@ function iniciar(canvas, ctx){
          document.getElementById("input1").innerHTML="Mouse";
          document.getElementById("input2").innerHTML="Finger";
          document.getElementById("input3").innerHTML="Stylus pen";
+         document.getElementById("modaltext1").innerHTML="Thank you for your contribution";
+         document.getElementById("modaltext2").innerHTML="Press the return button to send another character";
+         if(window.initialData=="noimage"){
+            document.getElementById("modaltext1").innerHTML="The character box is empty";
+            document.getElementById("modaltext2").innerHTML="Please press the return button and write the character";
+         }
          var languageele=document.getElementsByName("language");
          var inputele=document.getElementsByName("input");
          for (var i = 0; i < languageele.length; i++){
@@ -187,4 +201,42 @@ function iniciar(canvas, ctx){
       }
     }
     language();
+
+    //Alerts module
+    if(window.initialData=="sent" || window.initialData=="noimage"){
+       modalon= true;
+       document.getElementsByClassName("modal")[0].style['display']="block";
+       document.getElementById("clean").disabled = true;
+       document.getElementById("submit").disabled = true;
+       document.getElementsByName('country')[0].disabled = true;
+       document.getElementsByName('country')[1].disabled = true;
+       document.getElementsByName('language')[0].disabled = true;
+       document.getElementsByName('language')[1].disabled = true;
+       document.getElementsByName('language')[2].disabled = true;
+       document.getElementsByName('input')[0].disabled = true;
+       document.getElementsByName('input')[1].disabled = true;
+       document.getElementsByName('input')[2].disabled = true;
+       document.getElementById("clean").classList.remove("buttonon");
+       document.getElementById("clean").classList.add("buttonoff");
+       document.getElementById("submit").classList.remove("buttonon");
+       document.getElementById("submit").classList.add("buttonoff");
+    }
+    document.getElementsByClassName("returnImg")[0].onclick=function(){
+      modalon= false;
+      document.getElementById("clean").disabled = false;
+      document.getElementById("submit").disabled = false;
+      document.getElementsByName('country')[0].disabled = false;
+      document.getElementsByName('country')[1].disabled = false;
+      document.getElementsByName('language')[0].disabled = false;
+      document.getElementsByName('language')[1].disabled = false;
+      document.getElementsByName('language')[2].disabled = false;
+      document.getElementsByName('input')[0].disabled = false;
+      document.getElementsByName('input')[1].disabled = false;
+      document.getElementsByName('input')[2].disabled = false;
+      document.getElementById("clean").classList.remove("buttonoff");
+      document.getElementById("clean").classList.add("buttonon");
+      document.getElementById("submit").classList.remove("buttonoff");
+      document.getElementById("submit").classList.add("buttonon");
+      document.getElementsByClassName("modal")[0].style['display']="none";
+    }
 }
