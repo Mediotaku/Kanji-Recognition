@@ -1,10 +1,14 @@
 window.onload = function(){
     var canvas = document.getElementById("kanjicanvas");
+    var canvasback = document.getElementById("thecanvas");
     //To transform canvas pixel size from default to intended size (same as CSS one)
     canvas.width=300;
     canvas.height=300;
     var ctx = canvas.getContext("2d");
-    iniciar(canvas, ctx);
+    canvasback.width=window.innerWidth;
+    canvasback.height=window.innerHeight;
+    var ctxback = canvasback.getContext("2d");
+    iniciar(canvas, ctx, canvasback, ctxback);
 }
 
 //To transform the canvas content into binary data
@@ -13,10 +17,53 @@ function canvastoimg(){
    document.getElementById('imgcanvas').value = canvas.toDataURL();
 }
 
-function iniciar(canvas, ctx){
+function iniciar(canvas, ctx, canvasback, ctxback){
     var click=false;
     var modalon=false;
-    
+
+    function backcanvas(){
+       //Decoration for canvas back
+       ctxback.fillStyle="#4fca22";
+       ctxback.beginPath();
+       var width1=canvasback.width/7;
+       var height1=canvasback.height-(canvasback.height/3);
+       ctxback.arc(width1, height1, 100, 0, 2 * Math.PI);
+       ctxback.fill();
+       ctxback.fillStyle="lightgrey";
+       ctxback.beginPath();
+       ctxback.arc(width1+110,height1+110, 70, 0, 2 * Math.PI);
+       ctxback.fill();
+       //Letters
+       ctxback.font = "100px Georgia";
+       ctxback.fillStyle="white";
+       ctxback.fillText("漢", width1-20, height1-15);
+       ctxback.font = "90px Georgia";
+       ctxback.fillText("字", width1-60, height1+91);
+      
+       ctxback.fillStyle="lightgrey";
+       ctxback.beginPath();
+       var width2=canvasback.width-canvasback.width/7;
+       var height2=canvasback.height-(canvasback.height/3);
+       ctxback.arc(width2, height2, 100, 0, 2 * Math.PI);
+       ctxback.fill();
+       ctxback.fillStyle="#4fca22";
+       ctxback.beginPath();
+       ctxback.arc(width2-110,height2+110, 70, 0, 2 * Math.PI);
+       ctxback.fill();
+       //Letters
+       ctxback.font = "100px Georgia";
+       ctxback.fillStyle="white";
+       ctxback.fillText("認", width2-70, height2-10);
+       ctxback.font = "90px Georgia";
+       ctxback.fillText("識", width2-15, height2+91);
+    }
+    window.addEventListener("resize", function(e){
+      canvasback.width=window.innerWidth;
+      canvasback.height=window.innerHeight;
+      if(window.innerWidth>=950){
+      backcanvas();}
+    });
+
     function grid(){
         //Drawing 原稿用紙 grid lines in lightgrey
         ctx.strokeStyle="lightgrey";
@@ -80,9 +127,10 @@ function iniciar(canvas, ctx){
            //pageX/Y returns the position relative to the top left corner of the whole page, scroll included
            //clientX/Y returns the position relative to the top left corner of the visible page in that moment
            //When using either clientX/Y or pageX/Y, we have to subtract the offset of the canvas to get
-           //the correct position relative to its top left corner.  
-           var touchX = touch.pageX - touch.target.offsetLeft;
-           var touchY = touch.pageY - touch.target.offsetTop;
+           //the correct position relative to its top left corner.
+           var rect = canvas.getBoundingClientRect();  
+           var touchX = touch.pageX - rect.left;
+           var touchY = touch.pageY - rect.top;
            ctx.lineWidth = 3;
            ctx.lineCap= "round";
            ctx.lineTo(touchX, touchY);
@@ -239,4 +287,101 @@ function iniciar(canvas, ctx){
       document.getElementById("submit").classList.add("buttonon");
       document.getElementsByClassName("modal")[0].style['display']="none";
     }
+
+    //Update background canvas
+    if(window.innerWidth>=950){
+      backcanvas();
+   }
+
+   //Keep radio buttons selection
+   document.getElementsByName('country')[0].onchange=function(){
+      if(document.getElementsByName('country')[0].checked==true){
+         sessionStorage.setItem("question1","1");
+      }
+   }
+   document.getElementsByName('country')[1].onchange=function(){
+      if(document.getElementsByName('country')[1].checked==true){
+         sessionStorage.setItem("question1","2");
+      }
+   }
+   if(sessionStorage.getItem("question1")!=null){
+      var option=sessionStorage.getItem("question1");
+      if(option=="1"){
+         document.getElementsByName('country')[0].checked=true;
+      }
+      if(option=="2"){
+         document.getElementsByName('country')[1].checked=true;
+      }
+   }
+   else{
+      sessionStorage.setItem("question1","1");
+      document.getElementsByName('country')[0].checked=true;
+   }
+/////////////////////////////////////////////////////////////////////
+   document.getElementsByName('language')[0].onchange=function(){
+      if(document.getElementsByName('language')[0].checked==true){
+         sessionStorage.setItem("question2","1");
+      }
+   }
+   document.getElementsByName('language')[1].onchange=function(){
+      if(document.getElementsByName('language')[1].checked==true){
+         sessionStorage.setItem("question2","2");
+      }
+   }
+   document.getElementsByName('language')[2].onchange=function(){
+      if(document.getElementsByName('language')[2].checked==true){
+         sessionStorage.setItem("question2","3");
+      }
+   }
+   if(sessionStorage.getItem("question2")!=null){
+      var option=sessionStorage.getItem("question2");
+      if(option=="1"){
+         document.getElementsByName('language')[0].checked=true;
+      }
+      if(option=="2"){
+         document.getElementsByName('language')[1].checked=true;
+      }
+      if(option=="3"){
+         document.getElementsByName('language')[2].checked=true;
+      }
+   }
+   else{
+      sessionStorage.setItem("question2","1");
+      document.getElementsByName('language')[0].checked=true;
+   }
+/////////////////////////////////////////////////////////////////////
+   document.getElementsByName('input')[0].onchange=function(){
+      if(document.getElementsByName('input')[0].checked==true){
+         sessionStorage.setItem("question3","1");
+      }
+   }
+   document.getElementsByName('input')[1].onchange=function(){
+      if(document.getElementsByName('input')[1].checked==true){
+         sessionStorage.setItem("question3","2");
+      }
+   }
+   document.getElementsByName('input')[2].onchange=function(){
+      if(document.getElementsByName('input')[2].checked==true){
+         sessionStorage.setItem("question3","3");
+      }
+   }
+   if(sessionStorage.getItem("question3")!=null){
+      var option=sessionStorage.getItem("question3");
+      if(option=="1"){
+         document.getElementsByName('input')[0].checked=true;
+      }
+      if(option=="2"){
+         document.getElementsByName('input')[1].checked=true;
+      }
+      if(option=="3"){
+         document.getElementsByName('input')[2].checked=true;
+      }
+   }
+   else{
+      sessionStorage.setItem("question3","1");
+      document.getElementsByName('input')[0].checked=true;
+   }
+
+
+
 }

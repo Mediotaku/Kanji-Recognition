@@ -51,7 +51,7 @@ def index():
         cur.execute("SELECT * FROM classes WHERE number = ( SELECT MIN(number) FROM classes )")
         resultnumber = cur.rowcount
         result = cur.fetchall()
-        print(result)
+        #print(result)
         if resultnumber != 1:      
             value = randint(0, resultnumber-1)
             session['character'] = result[value]["name"]
@@ -170,4 +170,4 @@ def users():
 '''
 if __name__== '__main__': 
     #debug=True to update server changes without restarting
-    app.run(debug=False) 
+    app.run(debug=True) 
