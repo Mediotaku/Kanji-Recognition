@@ -74,7 +74,7 @@ def index():
         image_encoded = content.split(',')[1]
         body = base64.decodebytes(image_encoded.encode('utf-8'))
         #Save temp image for comparing
-
+        
         #Using Python 3.x syntax to save into file
         #wb means writing in binary mode, like images or .exe
         #wt or w would write in text mode, like for plain text or text-based formats like CSV
@@ -104,11 +104,6 @@ def index():
 
         flag="noimage"
         if equal == 1:
-            #Now we should process the image to MNIST format using OpenCV
-            dim = (28, 28) 
-            #INTER_AREA is the recommended interpolation method for shrinking 
-            temp = cv2.resize(temp, dim, interpolation = cv2.INTER_AREA) 
-
             #Create filename and store in database along form data
             cur = mysql.cursor()
             character = session['character']
@@ -116,7 +111,19 @@ def index():
             result = cur.fetchone()
             result = result["number"]
             filename = "./test_filesystem/" + session['character'] +"_"+ str(result) + ".png"
+            filenamesource = "./test_filesystem/" + session['character'] +"_"+ str(result) +"_big"+ ".png"
             #print(filename)
+
+            #Saving a full copy of the image for backup
+            ext = os.path.splitext(filename)[1]
+            result, n = cv2.imencode(ext, temp, None)
+            with open(filenamesource, "wb") as f:
+                n.tofile(f)
+            
+            #Now we should process the image to MNIST format using OpenCV
+            dim = (28, 28) 
+            #INTER_AREA is the recommended interpolation method for shrinking 
+            temp = cv2.resize(temp, dim, interpolation = cv2.INTER_AREA) 
 
             #Save image in filesystem
             #We have to use this method to avoid that OpenCV imwrite only allow
@@ -126,7 +133,6 @@ def index():
             result, n = cv2.imencode(ext, temp, None)
             with open(filename, "wb") as f:
                 n.tofile(f)
-
 
             #Save into database, first we increment the counter in classes and then we insert in dataset
             cur.execute("UPDATE classes SET number=number+1 WHERE name=%s",character)
@@ -153,6 +159,7 @@ def index():
                 session['character'] = result[0]["name"]
             mysql.commit()
             cur.close()
+
             #On post success, flag is sent
             flag="sent"
         
@@ -170,4 +177,4 @@ def users():
 '''
 if __name__== '__main__': 
     #debug=True to update server changes without restarting
-    app.run(debug=True) 
+    app.run(host='0.0.0.0', debug=True) 

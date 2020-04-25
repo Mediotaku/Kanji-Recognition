@@ -1,6 +1,8 @@
 window.onload = function(){
     var canvas = document.getElementById("kanjicanvas");
     var canvasback = document.getElementById("thecanvas");
+    //Clean the canvas hidden field onload to avoid false posts on reload
+    document.getElementById('imgcanvas').value="";
     //To transform canvas pixel size from default to intended size (same as CSS one)
     canvas.width=300;
     canvas.height=300;
@@ -144,6 +146,12 @@ function iniciar(canvas, ctx, canvasback, ctxback){
        //Draw grid lines after clear
        grid();
     }
+    document.getElementById("clean").addEventListener("touchstart", function (e){
+      //The enternal battle against width hack 
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      //Draw grid lines after clear
+      grid();
+    });
 //Language management module
     function language(){
        var lang =sessionStorage.getItem("language");
