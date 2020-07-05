@@ -104,11 +104,7 @@ html, body { width:100%; height:100%; }
     color: grey;
     background-color: white;
 }
-.buttonon:hover{
-    color: white;
-    background-color: #4fca22;
-    cursor:pointer;
-}
+
 .buttonoff{
     color: grey;
     background-color: lightgray;
@@ -275,4 +271,13 @@ input[name="country"]{
 #button-10 .checkbox:checked ~ .layer
 {
     background-color: #fdfdfd;
+}
+/*Media queries*/
+
+@media (hover: hover) {
+    .buttonon:hover{
+        color: white;
+        background-color: #4fca22;
+        cursor:pointer;
+    }
 }

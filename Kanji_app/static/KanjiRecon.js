@@ -16,7 +16,7 @@ window.onload = function(){
 //To transform the canvas content into binary data
 function canvastoimg(){
    var canvas = document.getElementById("kanjicanvas");
-   document.getElementById('imgcanvas').value = canvas.toDataURL();
+   document.getElementById('imgcanvas').value = canvas.toDataURL('image/png');
 }
 
 function iniciar(canvas, ctx, canvasback, ctxback){
@@ -63,7 +63,8 @@ function iniciar(canvas, ctx, canvasback, ctxback){
       canvasback.width=window.innerWidth;
       canvasback.height=window.innerHeight;
       if(window.innerWidth>=950){
-      backcanvas();}
+         backcanvas();
+      }
     });
 
     function grid(){
@@ -92,13 +93,16 @@ function iniciar(canvas, ctx, canvasback, ctxback){
     canvas.onmousedown=function(e){
        if(modalon==false){
        click=true;
-       ctx.beginPath();}
+       ctx.beginPath();
+       e.preventDefault(); //if not, canvas becomes sometimes draggable in Microsoft Edge
+      }
     }
     canvas.addEventListener("touchstart", function (e){
-       if(modalon==false){
-       click=true;
-       ctx.beginPath();
-       e.preventDefault();}
+      if(modalon==false){
+         click=true;
+         ctx.beginPath();
+         //e.preventDefault();
+      }
     }); 
     window.onmouseup=function(e){
        click=false;
@@ -107,7 +111,7 @@ function iniciar(canvas, ctx, canvasback, ctxback){
     window.addEventListener("touchend", function (e){
        click=false;
        ctx.beginPath();
-       e.preventDefault();
+       //e.preventDefault(); //This prevent would break mouse events in touch mobile devices (like for our radio buttons)
     }); 
     canvas.onmousemove=function(e){
        if(click){
@@ -131,8 +135,8 @@ function iniciar(canvas, ctx, canvasback, ctxback){
            //When using either clientX/Y or pageX/Y, we have to subtract the offset of the canvas to get
            //the correct position relative to its top left corner.
            var rect = canvas.getBoundingClientRect();  
-           var touchX = touch.pageX - rect.left;
-           var touchY = touch.pageY - rect.top;
+           var touchX = touch.clientX - rect.left;
+           var touchY = touch.clientY - rect.top;
            ctx.lineWidth = 3;
            ctx.lineCap= "round";
            ctx.lineTo(touchX, touchY);
@@ -146,12 +150,12 @@ function iniciar(canvas, ctx, canvasback, ctxback){
        //Draw grid lines after clear
        grid();
     }
-    document.getElementById("clean").addEventListener("touchstart", function (e){
+    /* document.getElementById("clean").addEventListener("touchstart", function (e){
       //The enternal battle against width hack 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       //Draw grid lines after clear
       grid();
-    });
+    }); */
 //Language management module
     function language(){
        var lang =sessionStorage.getItem("language");
@@ -243,6 +247,21 @@ function iniciar(canvas, ctx, canvasback, ctxback){
          document.getElementById("submit").style['font-family']="'Nunito', sans-serif"; 
       }
     }
+    document.getElementById("changelang").addEventListener("touchstart", function (e){
+      var lang=document.getElementsByTagName("html")[0].getAttribute("lang");
+      if(lang=='ja'){
+         document.getElementById("changelang").checked=true;
+         document.getElementsByTagName("html")[0].setAttribute("lang","en");
+         sessionStorage.setItem("language", "en");
+         language();
+      }
+      if(lang=='en'){
+         document.getElementById("changelang").checked=false;
+         document.getElementsByTagName("html")[0].setAttribute("lang","ja");
+         sessionStorage.setItem("language", "ja");
+         language();
+      }
+    });
     document.getElementById("changelang").onchange=function(){
       var lang=document.getElementsByTagName("html")[0].getAttribute("lang");
       if(lang=='ja'){
@@ -389,7 +408,5 @@ function iniciar(canvas, ctx, canvasback, ctxback){
       sessionStorage.setItem("question3","1");
       document.getElementsByName('input')[0].checked=true;
    }
-
-
 
 }

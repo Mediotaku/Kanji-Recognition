@@ -87,11 +87,16 @@ def index():
         trans_mask = image[:,:,3] == 0
         image[trans_mask] = [255, 255, 255, 255]
         temp = cv2.cvtColor(image, cv2.COLOR_BGRA2BGR)
-
+        
         #Erase lightgrey grid lines
-        mask = cv2.inRange(temp, np.array([211,211,211]), np.array([211,211,211]))
+
+        #Canvas images generated in different browsers may result in slightly different outputs
+        #due to encoding, aliasing, compression or hashes reasons, to overcome this problem
+        #we set a color range to cover more possible shades of gray, so the grid lines get 
+        #erased anyway, we also do this before empty box checking, so only a white box is compared  
+        mask = cv2.inRange(temp, np.array([205,205,205]), np.array([215,215,215]))
         temp[mask!=0] = (255,255,255)
-        temp = cv2.cvtColor(temp, cv2.COLOR_BGRA2BGR)
+        #temp = cv2.cvtColor(temp, cv2.COLOR_BGRA2BGR)   
 
         #Check if canvas is not empty with OpenCV
         equal = 1
@@ -99,7 +104,7 @@ def index():
         if temp.shape == default.shape:
             difference = cv2.subtract(default, temp)
             b, g, r = cv2.split(difference)
-            if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
+            if (cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0):
                 equal = 0
 
         flag="noimage"
