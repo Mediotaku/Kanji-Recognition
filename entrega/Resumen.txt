@@ -1,0 +1,10 @@
+El reconocimiento óptico de caracteres japoneses manuscritos ha sido siempre un reto para los investigadores. El gran número de clases, su complejidad gráfica y la existencia de tres sistemas de escritura diferentes hacen este problema particularmente difícil en comparación a la escritura occidental. Durante décadas, se intentó abordar el problema mediante técnicas tradicionales de OCR (Reconocimiento Óptico de Caracteres), con resultados variados.
+
+Con la reciente popularización de las técnicas de aprendizaje máquina a través de redes neurales esta investigación se ha revitalizado, aportando nuevos enfoques al problema. Estos nuevos resultados alcanzan niveles comparables al reconocimiento humano. Además, estas nuevas técnicas han permitido la colaboración con disciplinas muy diferentes, tales como las Humanidades o los estudios de Asia Oriental, logrando avances en las mismas que no habrían sido posibles sin este trabajo interdisciplinario. 
+
+En este trabajo se exploran dichas técnicas, hasta alcanzar un nivel de comprensión suficiente que nos permite realizar nuestros propios experimentos, entrenando modelos de redes neuronales con conjuntos de datos públicos de caracteres japoneses.
+
+Sin embargo, la escasez de dichos conjuntos de datos públicos dificulta enormemente la tarea de los investigadores. Nuestra propuesta para minimizar este problema es el desarrollo de una aplicación web que permita a los investigadores recolectar ejemplos de caracteres japoneses fácilmente mediante la colaboración de cualquier usuario. 
+
+Una vez la aplicación se encuentre plenamente operativa, se utilizaran los ejemplos recogidos hasta el momento para crear un nuevo conjunto de datos en un formato concreto. Finalmente, podemos utilizar los nuevos datos para realizar experimentos comparativos con los anteriores modelos de redes neuronales. 
+

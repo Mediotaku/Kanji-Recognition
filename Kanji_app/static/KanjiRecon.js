@@ -176,7 +176,7 @@ function iniciar(canvas, ctx, canvasback, ctxback){
          document.querySelectorAll("form")[0].style['font-family']="'Noto Serif JP', serif";
          document.querySelectorAll("form")[0].style['font-size']="1em";
          document.getElementById("sentence1").innerHTML="ようこそ！これは日本語の文字を認識の研究プロジェクトです。自分の1文字を送ることで貢献できます。";
-         document.getElementById("sentence2").innerHTML="グレー の箱に「"+mychar+"」の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。";
+         document.getElementById("sentence2").innerHTML="グレー の箱に<span id='charhighlight'>「"+mychar+"」</span>の文字を記入してください。その後、以下の3つの質問に答えて[送信]をクリックしてください。";
          document.getElementById("question1").innerHTML="ご出身はどちらですか?";
          document.getElementById("question2").innerHTML="あなたの日本語レベルはどのくらいですか？";
          document.getElementById("question3").innerHTML="文字を書くのに何を使いましたか？";
@@ -216,7 +216,7 @@ function iniciar(canvas, ctx, canvasback, ctxback){
          document.querySelectorAll("form")[0].style['font-family']="'Nunito', sans-serif";
          document.querySelectorAll("form")[0].style['font-size']="1em";
          document.getElementById("sentence1").innerHTML="Welcome! This is a research project for the recognition of Japanese characters. You can contribute by sending one character of your own.";     
-         document.getElementById("sentence2").innerHTML="Please write the character「"+mychar+"」in the grey box. After that, answer the three questions below and press 'Submit'.";
+         document.getElementById("sentence2").innerHTML="Please write the character<span id='charhighlight'>「"+mychar+"」</span>in the grey box. After that, answer the three questions below and press 'Submit'.";
          document.getElementById("question1").innerHTML="Where are you from?";
          document.getElementById("question2").innerHTML="What is your level of Japanese language?";
          document.getElementById("question3").innerHTML="What have you used to write the character?";

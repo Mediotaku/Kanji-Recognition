@@ -98,8 +98,8 @@ def KerasHiragana(writers=160,test_size=0.2):
     X_test= x_test.reshape(x_test.shape[0], 64, 64, 1).astype('float32')
 
     # normalize inputs from 0-255 to 0-1
-    X_train = X_train / 255
-    X_test = X_test / 255
+    #X_train = X_train / 255
+    #X_test = X_test / 255
     
     nb_classes= len(unique_labels)
     Y_train= np_utils.to_categorical(y_train, nb_classes)
@@ -139,8 +139,8 @@ def KerasKanji(writers=160,test_size=0.2):
     X_test= x_test.reshape(x_test.shape[0],64, 64, 1).astype('float32')
 
     # normalize inputs from 0-255 to 0-1
-    X_train = X_train / 255
-    X_test = X_test / 255
+    #X_train = X_train / 255
+    #X_test = X_test / 255
     
     nb_classes= len(unique_labels)
     #print(nb_classes)

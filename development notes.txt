@@ -1,0 +1,42 @@
+Points to mention:
+
+Development and deployment-----------------------------
+
+-We found out that empty canvas detection and grid removal do not work equally in diferent browsers. Turns out canvas image data between browsers is not the same for several reasons: 
+The same HTML5 Canvas element can produce exceptional pixels on a different web browsers, depending on the system on which it was executed.
+This happens for several reasons: at the image format level — web browsers uses different image processing engines, export options, compression level, final images may got different hashes even if they are pixel-perfect; at the pixmap level — operating systems use different algorithms and settings for anti-aliasing and sub-pixel rendering. We don't know all the reasons, but we have already collected more than a thousand unique signatures.
+Our to this problem is to set color ranges to include the similar colour shades that may slighly vary between browsers and devices.
+
+
+-Saving OpenCV images with Japanese characters in Unicode instead of other encoding
+
+-For retreiving CSS and JS in a Flask app, you need to create a "static" and "styles" files 
+
+-If not mouse prevent default in Canvas, it becomes draggable in Microsoft Edge.
+
+-Prevent defaul on touch would disable touch events on mobile
+
+
+-Yalm for database settings and the configuration in cPanel
+
+-Problem with the number of threads allowed in domain Python app, solved by limiting os.environ to 1 thread, in passenger_wsgi.py
+
+-Error log of Phusion passenger was really useful to debug this kind of server issues
+
+Testing and validation--------------------------------------
+
+
+
+-Testing with a local network for mobiles devices previous to deployment
+-We tested the application in a good range of devices and OS to make sure that most of the input forms (mouse, touch or stylus) can be correctly captured by the canvas. This includes laptops with touch screen and iOS devices such as iPhone with safari and iPad Pro using Apple Pencil. At the same time with assure is completely cross-browser regarding the canvas data issue.
+
+-Suggestion to highlight the requested character because some people tend to skip reading most of the text from website. We therefore choose to wite it in green. 
+
+-Suggestion to save the form options between requests for user's convenience. This way is faster to send more than one character
+
+-All in all, there are some app styles and behaviours that colud be further refined in the future, but now we have priorised the task more important realated with the thesis, which is the dataset creation and storage.
+
+-Publish license in project GitHub, where the repository have already received requests for instructions to run it.
+
+-Google Page insights to test page velocity
+

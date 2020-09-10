@@ -4,7 +4,6 @@ from tensorflow.keras import layers
 from keras.utils import np_utils
 from ETLtest import KerasHiragana
 from ETLtest import KerasKanji
-from OpenDataset import load_images_to_data
 import matplotlib.pyplot as plt
 import numpy as np
 #This test is working on Python 2.7.17
@@ -72,6 +71,35 @@ def cnn_model():
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 	return model
 
+def CNN_deep_model():
+	model = keras.Sequential()
+
+	model.add(keras.Input(shape=(64, 64, 1)))
+	model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+
+	model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+
+	model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+	
+	model.add(layers.Conv2D(256, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+
+	model.add(layers.Flatten())
+	model.add(layers.Dense(4096))
+	model.add(layers.Activation('relu'))
+	model.add(layers.Dropout(0.5))
+	model.add(layers.Dense(num_classes, activation='softmax'))
+	# Compile model
+	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	return model
+
 #Plot accuracy and val_accuracy into graph
 def show_history(history, scores):
     plt.plot(history.history['accuracy'])
@@ -85,8 +113,9 @@ def show_history(history, scores):
 # build the model
 #model = baseline_model()
 model = cnn_model()
+#model = CNN_deep_model()
 # Fit the model
-result = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=20, batch_size=128, verbose=2)
+result = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=20, batch_size=16, verbose=2)
 # Final evaluation of the model
 scores = model.evaluate(X_test, y_test, verbose=0)
 print("Baseline Error: %.2f%%" % (100-scores[1]*100))

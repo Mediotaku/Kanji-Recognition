@@ -1,6 +1,11 @@
 import struct
 import os
 import json
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from keras.utils import np_utils
+import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 from keras.utils import np_utils
@@ -54,4 +59,98 @@ def load_images_to_data(image_directory, test_size=0.2):
 
     return X_train, Y_train, X_test, Y_test
 
-load_images_to_data('./open_dataset/mnist')
+
+# load data from OpenDataset
+X_train, y_train, X_test, y_test = load_images_to_data('./open_dataset/touch')
+
+num_classes = y_test.shape[1]
+#num_pixels = X_train.shape[1] * X_train.shape[2]
+print(num_classes)
+def baseline_model():
+	# create model
+	model = Sequential()
+	#Entrada (pixeles de la imagen)
+	model.add(Dense(784, input_dim=4096, kernel_initializer='normal', activation='relu'))
+
+	model.add(Dense(522, kernel_initializer='normal', activation='relu'))
+	model.add(BatchNormalization())
+	model.add(Dropout(0.5))
+
+	#Salida 
+	model.add(Dense(num_classes, kernel_initializer='normal', activation='softmax'))
+	# Compile model
+	#model.compile(loss='categorical_crossentropy',  optimizer=keras.optimizers.SGD(lr=learning_rate, momentum=0.8, decay=decay_rate), metrics=['accuracy'])
+	model.compile(loss='categorical_crossentropy',  optimizer="adam", metrics=['accuracy'])
+	return model
+
+def cnn_model():
+	# create model
+	model = keras.Sequential()
+	model.add(keras.Input(shape=(28, 28, 1)))
+	model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Flatten())
+	model.add(layers.Dropout(0.5))
+	model.add(layers.Dense(num_classes, activation='softmax'))
+	# Compile model
+	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	return model
+
+def CNN_deep_model():
+	model = keras.Sequential()
+	model.add(keras.Input(shape=(28, 28, 1)))
+	model.add(layers.Conv2D(32, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+	model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+	model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2)))
+	model.add(layers.Dropout(0.25))
+	model.add(layers.Conv2D(256, (3, 3), activation='relu', padding='same'))
+	model.add(layers.MaxPooling2D(pool_size=(2, 2), padding='same'))
+	model.add(layers.Dropout(0.25))
+
+	model.add(layers.Flatten())
+	model.add(layers.Dense(4096))
+	model.add(layers.Activation('relu'))
+	model.add(layers.Dropout(0.5))
+	model.add(layers.Dense(num_classes, activation='softmax'))
+	# Compile model
+	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+	return model
+
+
+#Plot accuracy and val_accuracy into graph
+def show_history(history, scores):
+    plt.plot(history.history['accuracy'])
+    plt.plot(history.history['val_accuracy'])
+    plt.ylabel('accuracy')
+    plt.xlabel('epoch')
+    plt.legend(['train_accuracy', 'validation_accuracy'], loc='best')
+    plt.title("Baseline Error: %.2f%%" % (100-scores[1]*100))
+    plt.show()
+
+# build the model
+#model = baseline_model()
+#model = cnn_model()
+model = CNN_deep_model()
+# Fit the model
+result = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=20, batch_size=16, verbose=2)
+# Final evaluation of the model
+scores = model.evaluate(X_test, y_test, verbose=0)
+print("Baseline Error: %.2f%%" % (100-scores[1]*100))
+show_history(result, scores)
+
+#img = X_train[0]
+#img_class = model.predict_classes(img.reshape((1, 28, 28, 1)))
+#prediction = img_class[0]
+#classname = img_class[0]
+#print("Class: ",classname)
+#img = img.reshape((28,28))
+#plt.imshow(img)
+#plt.title(classname)
+#plt.show()
