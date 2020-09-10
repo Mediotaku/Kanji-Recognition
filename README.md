@@ -1,2 +1,4 @@
 # Kanji-Recognition
 This is the repository where is stored everything concerning my final degree project about **Japanese handwriting recognition using machine learning**. The project main objective is to develop a neural network structure capable of obtaining state-of-the-art results using Keras with Tensorflow backend and afterwards create a new dataset with a small number of kanji classes from samples obtained via crowdsourcing. This will be achieved with a web application where the users will input the kanjis requested using the device's touchscreen. Finally, we can compare the results of the model using the same classes from previous datasets and the dataset obtained via touchscreen. 
+
+All the content inside this repository is under the CC BY 4.0 license, the text of which can be found within the Kanji_app folder.
